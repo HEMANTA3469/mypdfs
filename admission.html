@@ -1,0 +1,651 @@
+{% extends "base.html" %}
+
+{% block title %}Coaching Admission{% endblock %}
+
+{% block content %}
+
+<div class="admission-page">
+
+    <div class="container py-5">
+
+        <!-- HEADER -->
+        <div class="text-center mb-5">
+
+            <span class="admission-badge">
+                🎓 COACHING ADMISSION 2026
+            </span>
+
+            <h1 class="fw-bold mt-3">
+                Start Your Learning Journey
+            </h1>
+
+            <p class="text-muted">
+                Fill the admission form to join our coaching program.
+            </p>
+
+        </div>
+
+
+        <div class="row justify-content-center">
+
+            <div class="col-lg-9">
+
+                <div class="admission-card">
+
+                    <div class="admission-card-header">
+
+                        <div>
+                            <h4 class="mb-1 fw-bold">
+                                Student Admission Form
+                            </h4>
+
+                            <small>
+                                Please enter correct information.
+                            </small>
+                        </div>
+
+                        <div class="admission-icon">
+                            🎓
+                        </div>
+
+                    </div>
+
+
+                    <div class="p-4 p-md-5">
+
+                        <form
+                            method="POST"
+                            enctype="multipart/form-data">
+
+
+                            <!-- STUDENT INFORMATION -->
+
+                            <h5 class="section-title">
+                                👨‍🎓 Student Information
+                            </h5>
+
+                            <div class="row g-3 mb-4">
+
+                                <div class="col-md-6">
+
+                                    <label class="form-label">
+                                        Student Name
+                                        <span>*</span>
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        name="student_name"
+                                        class="form-control"
+                                        placeholder="Enter student name"
+                                        required>
+
+                                </div>
+
+
+                                <div class="col-md-6">
+
+                                    <label class="form-label">
+                                        Date of Birth
+                                    </label>
+
+                                    <input
+                                        type="date"
+                                        name="dob"
+                                        class="form-control">
+
+                                </div>
+
+
+                                <div class="col-md-6">
+
+                                    <label class="form-label">
+                                        Father's Name
+                                        <span>*</span>
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        name="father_name"
+                                        class="form-control"
+                                        placeholder="Father's name"
+                                        required>
+
+                                </div>
+
+
+                                <div class="col-md-6">
+
+                                    <label class="form-label">
+                                        Mother's Name
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        name="mother_name"
+                                        class="form-control"
+                                        placeholder="Mother's name">
+
+                                </div>
+
+
+                                <div class="col-md-6">
+
+                                    <label class="form-label">
+                                        Gender
+                                    </label>
+
+                                    <select
+                                        name="gender"
+                                        class="form-select">
+
+                                        <option value="">
+                                            Select Gender
+                                        </option>
+
+                                        <option value="Male">
+                                            Male
+                                        </option>
+
+                                        <option value="Female">
+                                            Female
+                                        </option>
+
+                                        <option value="Other">
+                                            Other
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+
+                                <div class="col-md-6">
+
+                                    <label class="form-label">
+                                        Student Mobile
+                                        <span>*</span>
+                                    </label>
+
+                                    <input
+                                        type="tel"
+                                        name="mobile"
+                                        class="form-control"
+                                        maxlength="10"
+                                        placeholder="10 digit mobile number"
+                                        required>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- COURSE -->
+
+                            <h5 class="section-title">
+                                📚 Course & Batch
+                            </h5>
+
+                            <div class="row g-3 mb-4">
+
+                                <div class="col-md-6">
+
+                                    <label class="form-label">
+                                        Select Course
+                                        <span>*</span>
+                                    </label>
+
+                                    <select
+                                        name="course"
+                                        class="form-select"
+                                        required>
+
+                                        <option value="">
+                                            Select Course
+                                        </option>
+
+                                        <option value="School Coaching">
+                                            School Coaching
+                                        </option>
+
+                                        <option value="NVS Entrance">
+                                            NVS Entrance
+                                        </option>
+
+                                        <option value="SSC">
+                                            SSC Preparation
+                                        </option>
+
+                                        <option value="Banking">
+                                            Banking Preparation
+                                        </option>
+
+                                        <option value="Railway">
+                                            Railway Preparation
+                                        </option>
+
+                                        <option value="Competitive Exam">
+                                            Competitive Exam
+                                        </option>
+
+                                        <option value="Computer Course">
+                                            Computer Course
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+
+                                <div class="col-md-6">
+
+                                    <label class="form-label">
+                                        Batch
+                                        <span>*</span>
+                                    </label>
+
+                                    <select
+                                        name="batch"
+                                        class="form-select"
+                                        required>
+
+                                        <option value="">
+                                            Select Batch
+                                        </option>
+
+                                        <option value="Morning">
+                                            Morning Batch
+                                        </option>
+
+                                        <option value="Afternoon">
+                                            Afternoon Batch
+                                        </option>
+
+                                        <option value="Evening">
+                                            Evening Batch
+                                        </option>
+
+                                        <option value="Weekend">
+                                            Weekend Batch
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+
+                                <div class="col-md-6">
+
+                                    <label class="form-label">
+                                        Previous Class
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        name="previous_class"
+                                        class="form-control"
+                                        placeholder="Example: Class 10">
+
+                                </div>
+
+
+                                <div class="col-md-6">
+
+                                    <label class="form-label">
+                                        Admission Session
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        name="session"
+                                        class="form-control"
+                                        value="2026-27">
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- CONTACT -->
+
+                            <h5 class="section-title">
+                                📍 Address Details
+                            </h5>
+
+                            <div class="row g-3 mb-4">
+
+                                <div class="col-12">
+
+                                    <label class="form-label">
+                                        Full Address
+                                    </label>
+
+                                    <textarea
+                                        name="address"
+                                        class="form-control"
+                                        rows="3"
+                                        placeholder="Enter full address"></textarea>
+
+                                </div>
+
+
+                                <div class="col-md-4">
+
+                                    <label class="form-label">
+                                        City
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        name="city"
+                                        class="form-control">
+
+                                </div>
+
+
+                                <div class="col-md-4">
+
+                                    <label class="form-label">
+                                        District
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        name="district"
+                                        class="form-control">
+
+                                </div>
+
+
+                                <div class="col-md-4">
+
+                                    <label class="form-label">
+                                        PIN Code
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        name="pincode"
+                                        class="form-control"
+                                        maxlength="6">
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- PHOTO -->
+
+                            <h5 class="section-title">
+                                📷 Student Photo
+                            </h5>
+
+                            <div class="mb-4">
+
+                                <input
+                                    type="file"
+                                    name="photo"
+                                    class="form-control"
+                                    accept=".jpg,.jpeg,.png,.webp">
+
+                                <small class="text-muted">
+                                    JPG, PNG or WEBP format.
+                                </small>
+
+                            </div>
+
+
+                            <!-- FEE -->
+
+                            <h5 class="section-title">
+                                💰 Admission Details
+                            </h5>
+
+                            <div class="row g-3 mb-4">
+
+                                <div class="col-md-6">
+
+                                    <label class="form-label">
+                                        Admission Fee
+                                    </label>
+
+                                    <div class="input-group">
+
+                                        <span class="input-group-text">
+                                            ₹
+                                        </span>
+
+                                        <input
+                                            type="number"
+                                            name="admission_fee"
+                                            class="form-control"
+                                            value="0"
+                                            min="0">
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="col-md-6">
+
+                                    <label class="form-label">
+                                        Payment Status
+                                    </label>
+
+                                    <select
+                                        name="payment_status"
+                                        class="form-select">
+
+                                        <option value="Pending">
+                                            Pending
+                                        </option>
+
+                                        <option value="Paid">
+                                            Paid
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- AGREEMENT -->
+
+                            <div class="form-check mb-4">
+
+                                <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    id="agree"
+                                    required>
+
+                                <label
+                                    class="form-check-label"
+                                    for="agree">
+
+                                    I confirm that the information
+                                    provided above is correct.
+
+                                </label>
+
+                            </div>
+
+
+                            <!-- SUBMIT -->
+
+                            <div class="d-grid">
+
+                                <button
+                                    type="submit"
+                                    class="btn admission-btn">
+
+                                    🎓 Submit Admission Form
+
+                                </button>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+
+.admission-page {
+    background:
+        linear-gradient(
+            135deg,
+            #f5f7ff,
+            #eef2ff
+        );
+
+    min-height: calc(100vh - 80px);
+}
+
+
+.admission-badge {
+    display: inline-block;
+    padding: 9px 18px;
+    border-radius: 50px;
+    background: #e9e7ff;
+    color: #5146c7;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+
+.admission-card {
+    background: white;
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow:
+        0 20px 55px rgba(31,41,55,.10);
+}
+
+
+.admission-card-header {
+    padding: 25px 30px;
+    color: white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #4f46e5,
+            #7c3aed
+        );
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.admission-card-header small {
+    color: #e4e4ff;
+}
+
+
+.admission-icon {
+    width: 55px;
+    height: 55px;
+    border-radius: 15px;
+    background: rgba(255,255,255,.15);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 28px;
+}
+
+
+.section-title {
+    font-weight: 800;
+    color: #20284a;
+
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+
+    border-bottom: 1px solid #eceef5;
+}
+
+
+.form-label {
+    font-weight: 600;
+    color: #374151;
+}
+
+
+.form-label span {
+    color: #ef4444;
+}
+
+
+.form-control,
+.form-select {
+    min-height: 48px;
+    border-radius: 10px;
+    border: 1px solid #dfe3eb;
+}
+
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #6366f1;
+
+    box-shadow:
+        0 0 0 3px rgba(99,102,241,.12);
+}
+
+
+.admission-btn {
+    min-height: 52px;
+    color: white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #4f46e5,
+            #7c3aed
+        );
+
+    font-weight: 800;
+    border: none;
+}
+
+
+.admission-btn:hover {
+    color: white;
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 10px 25px rgba(79,70,229,.25);
+}
+
+
+@media(max-width:576px) {
+
+    .admission-card-header {
+        padding: 20px;
+    }
+
+}
+
+</style>
+
+{% endblock %}

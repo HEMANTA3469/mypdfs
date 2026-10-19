@@ -1,0 +1,634 @@
+```html
+{% extends "base.html" %}
+
+{% block title %}Orders Management - Admin{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <!-- PAGE HEADER -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="fw-bold mb-1">
+                🛒 Orders Management
+            </h2>
+
+            <p class="text-muted mb-0">
+                Manage customer PDF purchases and payment records.
+            </p>
+        </div>
+
+        <a href="{{ url_for('admin_dashboard') }}"
+           class="btn btn-outline-secondary">
+            ← Dashboard
+        </a>
+
+    </div>
+
+
+    <!-- STATISTICS -->
+    <div class="row g-4 mb-4">
+
+        <div class="col-md-4">
+
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+                            <small class="text-muted">
+                                Total Orders
+                            </small>
+
+                            <h3 class="fw-bold mb-0">
+                                {{ orders|length }}
+                            </h3>
+                        </div>
+
+                        <div class="order-icon">
+                            🛒
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-4">
+
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+                            <small class="text-muted">
+                                Paid Orders
+                            </small>
+
+                            <h3 class="fw-bold text-success mb-0"
+                                id="paidOrders">
+                                0
+                            </h3>
+                        </div>
+
+                        <div class="order-icon">
+                            ✅
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-4">
+
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+                            <small class="text-muted">
+                                Total Revenue
+                            </small>
+
+                            <h3 class="fw-bold text-success mb-0"
+                                id="totalRevenue">
+                                ₹0.00
+                            </h3>
+                        </div>
+
+                        <div class="order-icon">
+                            💰
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- SEARCH / FILTER -->
+    <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+        <div class="card-body">
+
+            <div class="row g-3">
+
+                <div class="col-md-8">
+
+                    <label class="form-label fw-semibold">
+                        Search Orders
+                    </label>
+
+                    <input
+                        type="text"
+                        id="orderSearch"
+                        class="form-control"
+                        placeholder="Search customer, email, PDF or order ID...">
+
+                </div>
+
+
+                <div class="col-md-4">
+
+                    <label class="form-label fw-semibold">
+                        Payment Status
+                    </label>
+
+                    <select
+                        id="statusFilter"
+                        class="form-select">
+
+                        <option value="">
+                            All Status
+                        </option>
+
+                        <option value="paid">
+                            Paid
+                        </option>
+
+                        <option value="pending">
+                            Pending
+                        </option>
+
+                        <option value="failed">
+                            Failed
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ORDERS -->
+    <div class="card border-0 shadow-sm rounded-4">
+
+        <div class="card-header bg-white border-0 p-4">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <div>
+                    <h5 class="fw-bold mb-1">
+                        📋 All Orders
+                    </h5>
+
+                    <small class="text-muted">
+                        Customer purchase history
+                    </small>
+                </div>
+
+                <span class="badge bg-primary"
+                      id="visibleCount">
+
+                    {{ orders|length }} Orders
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="card-body p-0">
+
+            {% if orders %}
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead class="table-dark">
+
+                        <tr>
+
+                            <th class="ps-4">
+                                Order ID
+                            </th>
+
+                            <th>
+                                Customer
+                            </th>
+
+                            <th>
+                                PDF
+                            </th>
+
+                            <th>
+                                Amount
+                            </th>
+
+                            <th>
+                                Payment
+                            </th>
+
+                            <th>
+                                Transaction
+                            </th>
+
+                            <th>
+                                Date
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="ordersBody">
+
+                        {% for order in orders %}
+
+                        <tr
+                            class="order-row"
+                            data-status="{{ order['payment_status'] or 'pending' }}">
+
+                            <!-- ORDER ID -->
+
+                            <td class="ps-4">
+
+                                <strong>
+                                    #{{ order["id"] }}
+                                </strong>
+
+                                <br>
+
+                                <small class="text-muted">
+                                    {{ order["payment_method"] or "Demo" }}
+                                </small>
+
+                            </td>
+
+
+                            <!-- CUSTOMER -->
+
+                            <td>
+
+                                <div class="fw-semibold">
+
+                                    {{ order["name"] }}
+
+                                </div>
+
+                                <small class="text-muted">
+
+                                    {{ order["email"] }}
+
+                                </small>
+
+                            </td>
+
+
+                            <!-- PDF -->
+
+                            <td>
+
+                                <div class="fw-semibold">
+
+                                    {{ order["title"] }}
+
+                                </div>
+
+                                <small class="text-muted">
+
+                                    PDF ID:
+                                    {{ order["pdf_id"] }}
+
+                                </small>
+
+                            </td>
+
+
+                            <!-- AMOUNT -->
+
+                            <td>
+
+                                <strong class="text-success">
+
+                                    ₹{{ "%.2f"|format(
+                                        order["amount"]|float
+                                    ) }}
+
+                                </strong>
+
+                            </td>
+
+
+                            <!-- PAYMENT -->
+
+                            <td>
+
+                                {% if order["payment_status"] == "paid" %}
+
+                                    <span class="badge bg-success">
+                                        ✓ Paid
+                                    </span>
+
+                                {% elif order["payment_status"] == "pending" %}
+
+                                    <span class="badge bg-warning text-dark">
+                                        ⏳ Pending
+                                    </span>
+
+                                {% elif order["payment_status"] == "failed" %}
+
+                                    <span class="badge bg-danger">
+                                        ✕ Failed
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-secondary">
+                                        {{ order["payment_status"] or "Unknown" }}
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <!-- TRANSACTION -->
+
+                            <td>
+
+                                {% if order["transaction_id"] %}
+
+                                    <code class="small">
+                                        {{ order["transaction_id"] }}
+                                    </code>
+
+                                {% else %}
+
+                                    <span class="text-muted">
+                                        —
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <!-- DATE -->
+
+                            <td>
+
+                                <small class="text-muted">
+
+                                    {{ order["created_at"] }}
+
+                                </small>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+            <!-- EMPTY STATE -->
+
+            <div class="text-center py-5">
+
+                <div class="empty-icon">
+                    🛒
+                </div>
+
+                <h4 class="fw-bold mt-3">
+                    No Orders Yet
+                </h4>
+
+                <p class="text-muted">
+                    Customer purchases will appear here.
+                </p>
+
+                <a href="{{ url_for('index') }}"
+                   class="btn btn-primary">
+
+                    View Store
+
+                </a>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- PAGE CSS -->
+
+<style>
+
+.order-icon {
+
+    width: 55px;
+    height: 55px;
+
+    border-radius: 50%;
+
+    background: #f1f3f5;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 26px;
+
+}
+
+.empty-icon {
+
+    font-size: 75px;
+
+}
+
+.table > :not(caption) > * > * {
+
+    padding: 15px 10px;
+
+}
+
+</style>
+
+
+<!-- PAGE JAVASCRIPT -->
+
+<script>
+
+const searchInput =
+    document.getElementById("orderSearch");
+
+const statusFilter =
+    document.getElementById("statusFilter");
+
+const rows =
+    document.querySelectorAll(".order-row");
+
+const visibleCount =
+    document.getElementById("visibleCount");
+
+const paidOrders =
+    document.getElementById("paidOrders");
+
+const totalRevenue =
+    document.getElementById("totalRevenue");
+
+
+/* ==========================================
+   CALCULATE STATISTICS
+========================================== */
+
+let paidCount = 0;
+let revenue = 0;
+
+
+rows.forEach(function(row) {
+
+    const status =
+        row.dataset.status.toLowerCase();
+
+    if (status === "paid") {
+
+        paidCount++;
+
+        const amountText =
+            row.children[3].innerText
+                .replace("₹", "")
+                .replace(",", "")
+                .trim();
+
+        const amount =
+            parseFloat(amountText) || 0;
+
+        revenue += amount;
+
+    }
+
+});
+
+
+paidOrders.innerText =
+    paidCount;
+
+totalRevenue.innerText =
+    "₹" + revenue.toFixed(2);
+
+
+/* ==========================================
+   FILTER
+========================================== */
+
+function filterOrders() {
+
+    const search =
+        searchInput.value.toLowerCase().trim();
+
+    const selectedStatus =
+        statusFilter.value.toLowerCase();
+
+    let visible = 0;
+
+
+    rows.forEach(function(row) {
+
+        const text =
+            row.innerText.toLowerCase();
+
+        const rowStatus =
+            row.dataset.status.toLowerCase();
+
+
+        const searchMatch =
+            text.includes(search);
+
+
+        const statusMatch =
+            !selectedStatus ||
+            rowStatus === selectedStatus;
+
+
+        if (
+            searchMatch &&
+            statusMatch
+        ) {
+
+            row.style.display = "";
+
+            visible++;
+
+        } else {
+
+            row.style.display = "none";
+
+        }
+
+    });
+
+
+    visibleCount.innerText =
+        visible + " Orders";
+
+}
+
+
+if (searchInput) {
+
+    searchInput.addEventListener(
+        "input",
+        filterOrders
+    );
+
+}
+
+
+if (statusFilter) {
+
+    statusFilter.addEventListener(
+        "change",
+        filterOrders
+    );
+
+}
+
+</script>
+
+{% endblock %}
+```

@@ -1,0 +1,1500 @@
+
+{% extends "base.html" %}
+
+{% block title %}Study Boys - Education PDF Store{% endblock %}
+
+{% block content %}
+
+<!-- =========================================================
+     HERO SECTION
+========================================================= -->
+
+<section class="hero-section">
+
+    <div class="hero-overlay"></div>
+
+    <div class="container position-relative">
+
+        <div class="row align-items-center min-vh-75">
+
+            <!-- LEFT CONTENT -->
+
+            <div class="col-lg-6">
+
+                <span class="hero-badge">
+                    🎓 Best Study Material Platform
+                </span>
+
+                <h1 class="hero-title">
+
+                    Learn Today,
+                    <span>Lead Tomorrow</span>
+
+                </h1>
+
+                <p class="hero-description">
+
+                    Download high-quality study materials,
+                    notes, question papers and educational
+                    PDFs for your academic success.
+
+                </p>
+
+
+                <!-- FEATURES -->
+
+                <div class="row g-3 mb-4">
+
+                    <div class="col-4">
+
+                        <div class="hero-feature">
+
+                            <div class="feature-icon">
+                                🛡️
+                            </div>
+
+                            <strong>
+                                Quality Content
+                            </strong>
+
+                            <small>
+                                Verified & Trusted
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-4">
+
+                        <div class="hero-feature">
+
+                            <div class="feature-icon">
+                                ⚡
+                            </div>
+
+                            <strong>
+                                Instant Download
+                            </strong>
+
+                            <small>
+                                Quick & Easy
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-4">
+
+                        <div class="hero-feature">
+
+                            <div class="feature-icon">
+                                🔐
+                            </div>
+
+                            <strong>
+                                100% Secure
+                            </strong>
+
+                            <small>
+                                Safe Payments
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SEARCH -->
+
+                <form
+                    action="{{ url_for('index') }}"
+                    method="GET"
+                    class="hero-search">
+
+                    <input
+                        type="text"
+                        name="q"
+                        value="{{ request.args.get('q', '') }}"
+                        placeholder="Search PDF by title, subject, or keyword...">
+
+                    <button type="submit">
+
+                        🔍 Search
+
+                    </button>
+
+                </form>
+
+            </div>
+
+
+            <!-- RIGHT -->
+
+            <div class="col-lg-6 hero-students">
+
+                <img
+                    src="{{ url_for(
+                        'static',
+                        filename='images/study_boys.png'
+                    ) }}"
+                    alt="College Students Studying"
+                    class="student-image">
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     CATEGORIES
+========================================================= -->
+
+<section class="section-space">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <h2>
+                Top Categories
+            </h2>
+
+            <div class="heading-line"></div>
+
+            <p>
+                Find study materials according to your needs
+            </p>
+
+        </div>
+
+
+        <div class="row g-4">
+
+
+            {% set categories = [
+                ('📘', 'Engineering PDFs'),
+                ('🎓', 'University Notes'),
+                ('📋', 'Question Papers'),
+                ('📝', 'Competitive Exams'),
+                ('🏫', 'School Study Material'),
+                ('📚', 'Other Categories')
+            ] %}
+
+
+            {% for icon, category in categories %}
+
+            <div class="col-6 col-md-4 col-lg-2">
+
+                <a
+                    href="{{ url_for(
+                        'index',
+                        category=category
+                    ) }}"
+                    class="category-card">
+
+                    <div class="category-icon">
+                        {{ icon }}
+                    </div>
+
+                    <h6>
+                        {{ category }}
+                    </h6>
+
+                    <small>
+                        Explore PDFs →
+                    </small>
+
+                </a>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     FEATURED PDFs
+========================================================= -->
+
+<section class="pdf-section">
+
+    <div class="container">
+
+        <div class="d-flex justify-content-between
+                    align-items-end mb-4">
+
+            <div>
+
+                <span class="section-label">
+                    STUDY MATERIAL
+                </span>
+
+                <h2 class="fw-bold mb-1">
+                    Featured PDFs
+                </h2>
+
+                <p class="text-muted mb-0">
+                    Popular educational materials
+                </p>
+
+            </div>
+
+
+            <a
+                href="{{ url_for('index') }}"
+                class="view-all">
+
+                View All PDFs →
+                
+            </a>
+
+        </div>
+
+
+        {% if pdfs %}
+
+        <div class="row g-4">
+
+            {% for pdf in pdfs %}
+
+            <div class="col-sm-6 col-lg-4 col-xl-3">
+
+                <div class="product-card">
+
+
+                    <!-- THUMBNAIL -->
+
+                    <div class="product-image">
+
+                        {% if pdf["thumbnail"] %}
+
+                        <img
+                            src="{{ url_for(
+                                'static',
+                                filename='thumbnails/' +
+                                pdf['thumbnail']
+                            ) }}"
+                            alt="{{ pdf['title'] }}">
+
+                        {% else %}
+
+                        <div class="product-placeholder">
+
+                            📄
+
+                        </div>
+
+                        {% endif %}
+
+
+                        <span class="pdf-badge">
+                            PDF
+                        </span>
+
+                    </div>
+
+
+                    <!-- DETAILS -->
+
+                    <div class="product-body">
+
+                        <span class="product-category">
+
+                            {{ pdf["category"] or
+                               "Education" }}
+
+                        </span>
+
+
+                        <h5 class="product-title">
+
+                            {{ pdf["title"] }}
+
+                        </h5>
+
+
+                        <p class="product-description">
+
+                            {{ pdf["description"] or
+                               "Educational study material." }}
+
+                        </p>
+
+
+                        <div class="product-footer">
+
+                            <div class="product-price">
+
+                                ₹{{ "%.2f"|format(
+                                    pdf["price"]|float
+                                ) }}
+
+                            </div>
+
+
+                            <a
+                                href="{{ url_for(
+                                    'pdf_detail',
+                                    pdf_id=pdf['id']
+                                ) }}"
+                                class="buy-button">
+
+                                🛒 Buy Now
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+
+        {% else %}
+
+
+        <!-- EMPTY -->
+
+        <div class="empty-products">
+
+            <div class="empty-icon">
+                📚
+            </div>
+
+            <h3>
+                Study Materials Coming Soon
+            </h3>
+
+            <p>
+                Educational PDFs will appear here.
+            </p>
+
+            {% if session.get("admin_id") %}
+
+            <a
+                href="{{ url_for('admin_add_pdf') }}"
+                class="btn btn-primary">
+
+                ➕ Add First PDF
+
+            </a>
+
+            {% endif %}
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     WHY STUDY BOYS
+========================================================= -->
+
+<section class="trust-section">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <h2>
+                Why Students Trust Study Boys?
+            </h2>
+
+            <div class="heading-line"></div>
+
+        </div>
+
+
+        <div class="row g-4">
+
+
+            <div class="col-md-3">
+
+                <div class="trust-card">
+
+                    <div class="trust-icon">
+                        🛡️
+                    </div>
+
+                    <h5>
+                        Trusted Content
+                    </h5>
+
+                    <p>
+                        Carefully selected study
+                        materials for students.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-3">
+
+                <div class="trust-card">
+
+                    <div class="trust-icon">
+                        ✅
+                    </div>
+
+                    <h5>
+                        High Quality
+                    </h5>
+
+                    <p>
+                        Useful and organized
+                        educational PDFs.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-3">
+
+                <div class="trust-card">
+
+                    <div class="trust-icon">
+                        ⚡
+                    </div>
+
+                    <h5>
+                        Instant Access
+                    </h5>
+
+                    <p>
+                        Get your purchased PDFs
+                        quickly after payment.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-3">
+
+                <div class="trust-card">
+
+                    <div class="trust-icon">
+                        🔐
+                    </div>
+
+                    <h5>
+                        Safe & Secure
+                    </h5>
+
+                    <p>
+                        Your account and purchase
+                        information stays protected.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     CALL TO ACTION
+========================================================= -->
+
+<section class="cta-section">
+
+    <div class="container">
+
+        <div class="cta-box">
+
+            <div>
+
+                <span>
+                    🎓 STUDY • LEARN • SUCCEED
+                </span>
+
+                <h2>
+                    Start Your Learning Journey
+                </h2>
+
+                <p>
+                    Explore quality educational PDFs
+                    and prepare smarter.
+                </p>
+
+            </div>
+
+
+            <a
+                href="{{ url_for('register') }}"
+                class="cta-button">
+
+                Create Free Account →
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     INDEX PAGE CSS
+========================================================= -->
+
+<style>
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero-section {
+
+    position: relative;
+
+    min-height: 680px;
+
+    display: flex;
+
+    align-items: center;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            120deg,
+            #07133d 0%,
+            #111c56 45%,
+            #5826a8 100%
+        );
+
+}
+
+
+.hero-section::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 550px;
+    height: 550px;
+
+    right: -180px;
+    top: -150px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(139,92,246,.28);
+
+    filter: blur(20px);
+
+}
+
+
+.hero-overlay {
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        radial-gradient(
+            circle at 75% 45%,
+            rgba(99,102,241,.35),
+            transparent 35%
+        );
+
+}
+
+
+.min-vh-75 {
+
+    min-height: 680px;
+
+}
+
+
+.hero-badge {
+
+    display: inline-block;
+
+    padding: 9px 18px;
+
+    border-radius: 50px;
+
+    background: rgba(255,255,255,.12);
+
+    border: 1px solid rgba(255,255,255,.2);
+
+    color: white;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    margin-bottom: 20px;
+
+}
+
+
+.hero-title {
+
+    font-size: clamp(
+        42px,
+        5vw,
+        68px
+    );
+
+    line-height: 1.05;
+
+    font-weight: 800;
+
+    color: white;
+
+    margin-bottom: 22px;
+
+}
+
+
+.hero-title span {
+
+    display: block;
+
+    color: #ffd21c;
+
+}
+
+
+.hero-description {
+
+    max-width: 600px;
+
+    color: #dbe4ff;
+
+    font-size: 17px;
+
+    line-height: 1.7;
+
+    margin-bottom: 30px;
+
+}
+
+
+/* FEATURES */
+
+.hero-feature {
+
+    color: white;
+
+    font-size: 12px;
+
+}
+
+
+.hero-feature strong {
+
+    display: block;
+
+    font-size: 12px;
+
+}
+
+
+.hero-feature small {
+
+    color: #b7c2e3;
+
+}
+
+
+.feature-icon {
+
+    font-size: 24px;
+
+    margin-bottom: 5px;
+
+}
+
+
+/* SEARCH */
+
+.hero-search {
+
+    display: flex;
+
+    max-width: 620px;
+
+    background: white;
+
+    padding: 6px;
+
+    border-radius: 13px;
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,.25);
+
+}
+
+
+.hero-search input {
+
+    flex: 1;
+
+    border: none;
+
+    outline: none;
+
+    padding: 13px 15px;
+
+    font-size: 14px;
+
+}
+
+
+.hero-search button {
+
+    border: none;
+
+    background:
+        linear-gradient(
+            135deg,
+            #4f46e5,
+            #7c3aed
+        );
+
+    color: white;
+
+    padding: 0 22px;
+
+    border-radius: 9px;
+
+    font-weight: 700;
+
+}
+
+
+/* STUDENT IMAGE */
+
+.hero-students {
+
+    height: 100%;
+
+    display: flex;
+
+    align-items: end;
+
+    justify-content: center;
+
+}
+
+
+.student-image {
+
+    width: 100%;
+
+    max-height: 650px;
+
+    object-fit: contain;
+
+    object-position: bottom;
+
+    filter:
+        drop-shadow(
+            0 25px 35px rgba(0,0,0,.25)
+        );
+
+}
+
+
+/* =========================================================
+   SECTIONS
+========================================================= */
+
+.section-space {
+
+    padding: 75px 0;
+
+    background: white;
+
+}
+
+
+.section-heading {
+
+    text-align: center;
+
+    margin-bottom: 45px;
+
+}
+
+
+.section-heading h2 {
+
+    font-weight: 800;
+
+    color: #101a3b;
+
+}
+
+
+.section-heading p {
+
+    color: #6b7280;
+
+}
+
+
+.heading-line {
+
+    width: 48px;
+
+    height: 4px;
+
+    border-radius: 5px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #4f46e5,
+            #7c3aed
+        );
+
+    margin: 13px auto;
+
+}
+
+
+/* =========================================================
+   CATEGORIES
+========================================================= */
+
+.category-card {
+
+    display: block;
+
+    text-align: center;
+
+    padding: 25px 10px;
+
+    border-radius: 18px;
+
+    background: #f8f7ff;
+
+    border: 1px solid #eeeaff;
+
+    color: #101a3b;
+
+    transition: .25s;
+
+}
+
+
+.category-card:hover {
+
+    transform: translateY(-7px);
+
+    background: white;
+
+    box-shadow:
+        0 15px 35px rgba(79,70,229,.12);
+
+    color: #4f46e5;
+
+}
+
+
+.category-icon {
+
+    width: 62px;
+
+    height: 62px;
+
+    margin: auto auto 15px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: white;
+
+    box-shadow:
+        0 8px 20px rgba(0,0,0,.07);
+
+    font-size: 28px;
+
+}
+
+
+.category-card h6 {
+
+    font-weight: 700;
+
+    margin-bottom: 8px;
+
+}
+
+
+.category-card small {
+
+    color: #7b8190;
+
+}
+
+
+/* =========================================================
+   PDF SECTION
+========================================================= */
+
+.pdf-section {
+
+    padding: 75px 0;
+
+    background: #f7f8fc;
+
+}
+
+
+.section-label {
+
+    color: #5b4bdb;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+
+}
+
+
+.view-all {
+
+    color: #4f46e5;
+
+    font-weight: 700;
+
+}
+
+
+/* PRODUCT */
+
+.product-card {
+
+    background: white;
+
+    border-radius: 18px;
+
+    overflow: hidden;
+
+    border: 1px solid #e9ebf2;
+
+    height: 100%;
+
+    transition: .25s;
+
+}
+
+
+.product-card:hover {
+
+    transform: translateY(-7px);
+
+    box-shadow:
+        0 18px 40px rgba(31,41,55,.12);
+
+}
+
+
+.product-image {
+
+    height: 260px;
+
+    position: relative;
+
+    overflow: hidden;
+
+    background: #eef0f7;
+
+}
+
+
+.product-image img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+    transition: .3s;
+
+}
+
+
+.product-card:hover
+.product-image img {
+
+    transform: scale(1.04);
+
+}
+
+
+.product-placeholder {
+
+    height: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 75px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #eef2ff,
+            #f5f3ff
+        );
+
+}
+
+
+.pdf-badge {
+
+    position: absolute;
+
+    top: 12px;
+
+    right: 12px;
+
+    background: #ef4444;
+
+    color: white;
+
+    padding: 5px 10px;
+
+    border-radius: 7px;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+}
+
+
+.product-body {
+
+    padding: 18px;
+
+}
+
+
+.product-category {
+
+    color: #6366f1;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+}
+
+
+.product-title {
+
+    font-size: 16px;
+
+    font-weight: 800;
+
+    margin: 7px 0;
+
+    color: #111827;
+
+}
+
+
+.product-description {
+
+    font-size: 13px;
+
+    color: #6b7280;
+
+    height: 40px;
+
+    overflow: hidden;
+
+}
+
+
+.product-footer {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-top: 18px;
+
+}
+
+
+.product-price {
+
+    color: #16a34a;
+
+    font-size: 20px;
+
+    font-weight: 800;
+
+}
+
+
+.buy-button {
+
+    background:
+        linear-gradient(
+            135deg,
+            #4f46e5,
+            #7c3aed
+        );
+
+    color: white;
+
+    padding: 9px 13px;
+
+    border-radius: 9px;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+}
+
+
+.buy-button:hover {
+
+    color: white;
+
+}
+
+
+/* =========================================================
+   TRUST
+========================================================= */
+
+.trust-section {
+
+    padding: 75px 0;
+
+    background: white;
+
+}
+
+
+.trust-card {
+
+    text-align: center;
+
+    padding: 25px;
+
+}
+
+
+.trust-icon {
+
+    width: 70px;
+
+    height: 70px;
+
+    margin: auto auto 18px;
+
+    border-radius: 50%;
+
+    background: #f1efff;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 30px;
+
+}
+
+
+.trust-card h5 {
+
+    font-weight: 800;
+
+}
+
+
+.trust-card p {
+
+    color: #6b7280;
+
+    font-size: 14px;
+
+}
+
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.empty-products {
+
+    text-align: center;
+
+    padding: 80px 20px;
+
+    background: white;
+
+    border-radius: 20px;
+
+}
+
+
+.empty-icon {
+
+    font-size: 75px;
+
+}
+
+
+/* =========================================================
+   CTA
+========================================================= */
+
+.cta-section {
+
+    padding: 30px 0 75px;
+
+    background: #f7f8fc;
+
+}
+
+
+.cta-box {
+
+    padding: 45px;
+
+    border-radius: 25px;
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 25px;
+
+    background:
+        linear-gradient(
+            120deg,
+            #111c56,
+            #6335b7
+        );
+
+    box-shadow:
+        0 20px 45px rgba(79,70,229,.2);
+
+}
+
+
+.cta-box span {
+
+    color: #ffd21c;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+
+}
+
+
+.cta-box h2 {
+
+    font-weight: 800;
+
+    margin: 8px 0;
+
+}
+
+
+.cta-box p {
+
+    color: #dbe4ff;
+
+    margin-bottom: 0;
+
+}
+
+
+.cta-button {
+
+    white-space: nowrap;
+
+    background: white;
+
+    color: #4f46e5;
+
+    padding: 13px 20px;
+
+    border-radius: 10px;
+
+    font-weight: 800;
+
+}
+
+
+.cta-button:hover {
+
+    color: #4f46e5;
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 991px) {
+
+    .hero-section {
+
+        padding: 60px 0 0;
+
+    }
+
+
+    .hero-students {
+
+        margin-top: 30px;
+
+    }
+
+
+    .student-image {
+
+        max-height: 430px;
+
+    }
+
+}
+
+
+@media (max-width: 576px) {
+
+    .hero-title {
+
+        font-size: 42px;
+
+    }
+
+
+    .hero-search {
+
+        flex-direction: column;
+
+        background: transparent;
+
+        box-shadow: none;
+
+        gap: 8px;
+
+    }
+
+
+    .hero-search input {
+
+        border-radius: 9px;
+
+        padding: 15px;
+
+    }
+
+
+    .hero-search button {
+
+        padding: 14px;
+
+    }
+
+
+    .hero-feature strong {
+
+        font-size: 10px;
+
+    }
+
+
+    .hero-feature small {
+
+        font-size: 9px;
+
+    }
+
+
+    .cta-box {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        padding: 30px;
+
+    }
+
+}
+
+</style>
+
+{% endblock %}
+```

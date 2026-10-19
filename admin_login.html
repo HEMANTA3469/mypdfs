@@ -1,0 +1,171 @@
+
+{% extends "base.html" %}
+
+{% block title %}Admin Login - Education PDF Store{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-6 col-lg-5">
+
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+
+                <!-- HEADER -->
+                <div class="bg-dark text-white text-center p-4">
+
+                    <div style="font-size: 55px;">
+                        🔐
+                    </div>
+
+                    <h2 class="fw-bold mb-1">
+                        Admin Login
+                    </h2>
+
+                    <p class="mb-0 text-white-50">
+                        Education PDF Store
+                    </p>
+
+                </div>
+
+
+                <!-- FORM -->
+                <div class="card-body p-4 p-md-5">
+
+                    <form method="POST"
+                          action="{{ url_for('admin_login') }}">
+
+                        <!-- EMAIL -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Admin Email
+                            </label>
+
+                            <div class="input-group">
+
+                                <span class="input-group-text">
+                                    📧
+                                </span>
+
+                                <input
+                                    type="email"
+                                    name="email"
+                                    class="form-control form-control-lg"
+                                    placeholder="admin@gmail.com"
+                                    autocomplete="email"
+                                    required>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- PASSWORD -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Password
+                            </label>
+
+                            <div class="input-group">
+
+                                <span class="input-group-text">
+                                    🔑
+                                </span>
+
+                                <input
+                                    type="password"
+                                    name="password"
+                                    id="adminPassword"
+                                    class="form-control form-control-lg"
+                                    placeholder="Enter admin password"
+                                    autocomplete="current-password"
+                                    required>
+
+                                <button
+                                    type="button"
+                                    class="btn btn-outline-secondary"
+                                    onclick="togglePassword()">
+
+                                    👁️
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- LOGIN BUTTON -->
+
+                        <button
+                            type="submit"
+                            class="btn btn-dark btn-lg w-100">
+
+                            🔐 Login to Admin Panel
+
+                        </button>
+
+                    </form>
+
+
+                    
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- BACK TO HOME -->
+
+                    <div class="text-center mt-4">
+
+                        <a
+                            href="{{ url_for('index') }}"
+                            class="text-decoration-none">
+
+                            ← Back to Education PDF Store
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+function togglePassword() {
+
+    const password =
+        document.getElementById("adminPassword");
+
+    if (password.type === "password") {
+
+        password.type = "text";
+
+    } else {
+
+        password.type = "password";
+
+    }
+
+}
+
+</script>
+
+{% endblock %}
+

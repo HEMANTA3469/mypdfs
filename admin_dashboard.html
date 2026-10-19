@@ -1,0 +1,1504 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - Education PDF Store{% endblock %}
+
+{% block content %}
+
+<style>
+
+/* =========================================================
+   ADMIN DASHBOARD
+========================================================= */
+
+.admin-dashboard {
+
+    min-height: calc(100vh - 70px);
+
+    background:
+        linear-gradient(
+            135deg,
+            #f5f7ff 0%,
+            #f8f9fc 50%,
+            #f1f5ff 100%
+        );
+
+    padding: 30px 0 50px;
+}
+
+
+/* =========================================================
+   WELCOME HEADER
+========================================================= */
+
+.welcome-card {
+
+    position: relative;
+
+    overflow: hidden;
+
+    border-radius: 24px;
+
+    padding: 32px;
+
+    color: white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #4338ca,
+            #6366f1,
+            #7c3aed
+        );
+
+    box-shadow:
+        0 15px 40px
+        rgba(79,70,229,.20);
+
+}
+
+
+.welcome-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 220px;
+
+    height: 220px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255,255,255,.08);
+
+    right: -70px;
+
+    top: -80px;
+
+}
+
+
+.welcome-card::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 150px;
+
+    height: 150px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255,255,255,.06);
+
+    right: 100px;
+
+    bottom: -90px;
+
+}
+
+
+.welcome-content {
+
+    position: relative;
+
+    z-index: 2;
+
+}
+
+
+.welcome-label {
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+
+    opacity: .85;
+
+}
+
+
+.welcome-card h2 {
+
+    font-weight: 800;
+
+    margin:
+        8px 0;
+
+}
+
+
+.welcome-card p {
+
+    margin: 0;
+
+    opacity: .85;
+
+}
+
+
+.header-actions {
+
+    position: relative;
+
+    z-index: 2;
+
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.btn-white {
+
+    background: white;
+
+    color: #4338ca;
+
+    border: none;
+
+    font-weight: 700;
+
+    border-radius: 10px;
+
+    padding: 11px 17px;
+
+}
+
+
+.btn-white:hover {
+
+    background: #f4f4ff;
+
+    color: #3730a3;
+
+}
+
+
+.btn-light-custom {
+
+    background:
+        rgba(255,255,255,.15);
+
+    color: white;
+
+    border:
+        1px solid rgba(255,255,255,.30);
+
+    font-weight: 600;
+
+    border-radius: 10px;
+
+    padding: 11px 17px;
+
+}
+
+
+.btn-light-custom:hover {
+
+    background:
+        rgba(255,255,255,.25);
+
+    color: white;
+
+}
+
+
+/* =========================================================
+   STAT CARDS
+========================================================= */
+
+.stat-card {
+
+    background: white;
+
+    border:
+        1px solid #e9ebf2;
+
+    border-radius: 18px;
+
+    padding: 21px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    height: 100%;
+
+    box-shadow:
+        0 6px 25px
+        rgba(20,30,60,.05);
+
+    transition: .25s;
+
+}
+
+
+.stat-card:hover {
+
+    transform:
+        translateY(-4px);
+
+    box-shadow:
+        0 12px 30px
+        rgba(20,30,60,.10);
+
+}
+
+
+.stat-icon {
+
+    width: 56px;
+
+    height: 56px;
+
+    min-width: 56px;
+
+    border-radius: 15px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 26px;
+
+    background: #eeefff;
+
+}
+
+
+.stat-icon.green {
+
+    background: #e8f8ef;
+
+}
+
+
+.stat-icon.orange {
+
+    background: #fff2df;
+
+}
+
+
+.stat-icon.red {
+
+    background: #fff0f0;
+
+}
+
+
+.stat-card small {
+
+    color: #7b8190;
+
+    font-size: 12px;
+
+}
+
+
+.stat-card h3 {
+
+    margin: 3px 0 0;
+
+    font-size: 25px;
+
+    font-weight: 800;
+
+    color: #1e2740;
+
+}
+
+
+/* =========================================================
+   SECTION
+========================================================= */
+
+.section-title {
+
+    font-weight: 800;
+
+    color: #202840;
+
+}
+
+
+.section-subtitle {
+
+    color: #7b8190;
+
+    font-size: 13px;
+
+}
+
+
+/* =========================================================
+   QUICK ACTION CARD
+========================================================= */
+
+.quick-card {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    position: relative;
+
+    background: white;
+
+    border:
+        1px solid #e8eaf0;
+
+    border-radius: 17px;
+
+    padding: 21px;
+
+    min-height: 130px;
+
+    text-decoration: none;
+
+    color: inherit;
+
+    transition: .25s;
+
+    box-shadow:
+        0 5px 20px
+        rgba(20,30,60,.04);
+
+}
+
+
+.quick-card:hover {
+
+    transform:
+        translateY(-5px);
+
+    color: inherit;
+
+    box-shadow:
+        0 13px 30px
+        rgba(20,30,60,.10);
+
+}
+
+
+.quick-icon {
+
+    width: 55px;
+
+    height: 55px;
+
+    min-width: 55px;
+
+    border-radius: 14px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: #eef0ff;
+
+    font-size: 26px;
+
+}
+
+
+.quick-icon.green {
+
+    background: #e8f8ef;
+
+}
+
+
+.quick-icon.orange {
+
+    background: #fff2df;
+
+}
+
+
+.quick-icon.blue {
+
+    background: #e9f5ff;
+
+}
+
+
+.quick-icon.purple {
+
+    background: #f1eaff;
+
+}
+
+
+.quick-card h6 {
+
+    font-weight: 800;
+
+    margin: 0 0 5px;
+
+    color: #202840;
+
+}
+
+
+.quick-card p {
+
+    margin: 0;
+
+    color: #7b8190;
+
+    font-size: 12px;
+
+}
+
+
+.quick-arrow {
+
+    position: absolute;
+
+    right: 17px;
+
+    bottom: 14px;
+
+    color: #6366f1;
+
+    font-size: 18px;
+
+    font-weight: 800;
+
+}
+
+
+/* =========================================================
+   RECENT PDF CARD
+========================================================= */
+
+.panel-card {
+
+    background: white;
+
+    border:
+        1px solid #e8eaf0;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 5px 20px
+        rgba(20,30,60,.04);
+
+    overflow: hidden;
+
+}
+
+
+.panel-header {
+
+    padding: 20px;
+
+    border-bottom:
+        1px solid #eef0f4;
+
+}
+
+
+.pdf-row {
+
+    padding: 15px 20px;
+
+    border-bottom:
+        1px solid #f0f1f5;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+}
+
+
+.pdf-row:last-child {
+
+    border-bottom: none;
+
+}
+
+
+.pdf-left {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+}
+
+
+.pdf-mini-icon {
+
+    width: 43px;
+
+    height: 43px;
+
+    border-radius: 11px;
+
+    background: #fff0f0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 21px;
+
+}
+
+
+.pdf-name {
+
+    font-weight: 700;
+
+    color: #202840;
+
+    font-size: 13px;
+
+}
+
+
+.pdf-date {
+
+    font-size: 11px;
+
+    color: #8b91a0;
+
+}
+
+
+.pdf-price {
+
+    font-weight: 800;
+
+    color: #202840;
+
+}
+
+
+.no-data {
+
+    padding: 45px 20px;
+
+    text-align: center;
+
+    color: #7b8190;
+
+}
+
+
+.no-data-icon {
+
+    font-size: 45px;
+
+}
+
+
+/* =========================================================
+   ADMIN INFO
+========================================================= */
+
+.info-item {
+
+    padding:
+        13px 0;
+
+    border-bottom:
+        1px solid #eef0f4;
+
+}
+
+
+.info-item:last-child {
+
+    border-bottom: none;
+
+}
+
+
+.info-label {
+
+    color: #8a90a0;
+
+    font-size: 11px;
+
+    display: block;
+
+    margin-bottom: 3px;
+
+}
+
+
+.info-value {
+
+    font-weight: 700;
+
+    color: #202840;
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width: 768px) {
+
+    .welcome-card {
+
+        padding: 25px;
+
+    }
+
+    .header-actions {
+
+        margin-top: 20px;
+
+    }
+
+    .stat-card {
+
+        padding: 17px;
+
+    }
+
+    .quick-card {
+
+        min-height: 115px;
+
+    }
+
+}
+
+</style>
+
+
+<div class="admin-dashboard">
+
+<div class="container-fluid">
+
+
+    <!-- =================================================
+         WELCOME HEADER
+    ================================================== -->
+
+    <div class="welcome-card mb-4">
+
+        <div class="row align-items-center">
+
+            <div class="col-lg-8">
+
+                <div class="welcome-content">
+
+                    <div class="welcome-label">
+                        ADMINISTRATION PANEL
+                    </div>
+
+                    <h2>
+                        👋 Welcome, Admin
+                    </h2>
+
+                    <p>
+                        Manage your education PDF store,
+                        coaching admissions and orders
+                        from one place.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-lg-4">
+
+                <div class="header-actions
+                            d-flex
+                            justify-content-lg-end
+                            gap-2
+                            flex-wrap
+                            mt-3 mt-lg-0">
+
+                    <a
+                        href="{{ url_for('index') }}"
+                        class="btn btn-light-custom">
+
+                        🌐 Visit Store
+
+                    </a>
+
+                    <a
+                        href="{{ url_for('admin_add_pdf') }}"
+                        class="btn btn-white">
+
+                        ➕ Add PDF
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         STATISTICS
+    ================================================== -->
+
+    <div class="row g-3 mb-4">
+
+
+        <!-- TOTAL PDF -->
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    📚
+                </div>
+
+                <div>
+
+                    <small>
+                        Total PDFs
+                    </small>
+
+                    <h3>
+                        {{ pdfs|length if pdfs else 0 }}
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ACTIVE PDF -->
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="stat-card">
+
+                <div class="stat-icon green">
+                    ✅
+                </div>
+
+                <div>
+
+                    <small>
+                        Active PDFs
+                    </small>
+
+                    <h3>
+
+                        {% if pdfs %}
+
+                        {{
+                            pdfs
+                            |selectattr("is_active")
+                            |list
+                            |length
+                        }}
+
+                        {% else %}
+
+                        0
+
+                        {% endif %}
+
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ORDERS -->
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="stat-card">
+
+                <div class="stat-icon orange">
+                    🛒
+                </div>
+
+                <div>
+
+                    <small>
+                        Total Orders
+                    </small>
+
+                    <h3>
+                        {{ orders|length if orders else 0 }}
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ADMISSIONS -->
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="stat-card">
+
+                <div class="stat-icon purple">
+                    🎓
+                </div>
+
+                <div>
+
+                    <small>
+                        Admissions
+                    </small>
+
+                    <h3>
+                        {{ admissions|length if admissions else 0 }}
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         QUICK ACTIONS + ADMIN INFO
+    ================================================== -->
+
+    <div class="row g-4 mb-4">
+
+
+        <!-- QUICK ACTIONS -->
+
+        <div class="col-lg-8">
+
+            <div class="mb-3">
+
+                <h5 class="section-title mb-1">
+                    ⚡ Quick Actions
+                </h5>
+
+                <p class="section-subtitle mb-0">
+                    Quickly access important sections
+                </p>
+
+            </div>
+
+
+            <div class="row g-3">
+
+
+                <!-- MANAGE PDF -->
+
+                <div class="col-md-6">
+
+                    <a
+                        href="{{ url_for('admin_pdfs') }}"
+                        class="quick-card">
+
+                        <div class="quick-icon">
+                            📚
+                        </div>
+
+                        <div>
+
+                            <h6>
+                                Manage PDFs
+                            </h6>
+
+                            <p>
+                                View and manage study materials
+                            </p>
+
+                        </div>
+
+                        <span class="quick-arrow">
+                            →
+                        </span>
+
+                    </a>
+
+                </div>
+
+
+                <!-- ADD PDF -->
+
+                <div class="col-md-6">
+
+                    <a
+                        href="{{ url_for('admin_add_pdf') }}"
+                        class="quick-card">
+
+                        <div class="quick-icon green">
+                            ➕
+                        </div>
+
+                        <div>
+
+                            <h6>
+                                Add New PDF
+                            </h6>
+
+                            <p>
+                                Upload educational material
+                            </p>
+
+                        </div>
+
+                        <span class="quick-arrow">
+                            →
+                        </span>
+
+                    </a>
+
+                </div>
+
+
+                <!-- ORDERS -->
+
+                <div class="col-md-6">
+
+                    <a
+                        href="{{ url_for('admin_orders') }}"
+                        class="quick-card">
+
+                        <div class="quick-icon orange">
+                            🛒
+                        </div>
+
+                        <div>
+
+                            <h6>
+                                Manage Orders
+                            </h6>
+
+                            <p>
+                                View customer PDF purchases
+                            </p>
+
+                        </div>
+
+                        <span class="quick-arrow">
+                            →
+                        </span>
+
+                    </a>
+
+                </div>
+
+
+                <!-- ADMISSIONS -->
+
+                <div class="col-md-6">
+
+                    <a
+                        href="{{ url_for('admin_admissions') }}"
+                        class="quick-card">
+
+                        <div class="quick-icon purple">
+                            🎓
+                        </div>
+
+                        <div>
+
+                            <h6>
+                                Coaching Admissions
+                            </h6>
+
+                            <p>
+                                Manage student admissions
+                            </p>
+
+                        </div>
+
+                        <span class="quick-arrow">
+                            →
+                        </span>
+
+                    </a>
+
+                </div>
+
+
+                <!-- STORE -->
+
+                <div class="col-md-6">
+
+                    <a
+                        href="{{ url_for('index') }}"
+                        class="quick-card">
+
+                        <div class="quick-icon blue">
+                            🌐
+                        </div>
+
+                        <div>
+
+                            <h6>
+                                Visit Store
+                            </h6>
+
+                            <p>
+                                Open public education store
+                            </p>
+
+                        </div>
+
+                        <span class="quick-arrow">
+                            →
+                        </span>
+
+                    </a>
+
+                </div>
+
+
+                <!-- LOGOUT -->
+
+                <div class="col-md-6">
+
+                    <a
+                        href="{{ url_for('logout') }}"
+                        class="quick-card">
+
+                        <div class="quick-icon red">
+                            🚪
+                        </div>
+
+                        <div>
+
+                            <h6>
+                                Logout
+                            </h6>
+
+                            <p>
+                                Sign out from admin panel
+                            </p>
+
+                        </div>
+
+                        <span class="quick-arrow">
+                            →
+                        </span>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             ADMIN INFORMATION
+        ================================================== -->
+
+        <div class="col-lg-4">
+
+            <div class="panel-card h-100">
+
+                <div class="panel-header">
+
+                    <h5 class="fw-bold mb-1">
+                        ⚙️ Admin Information
+                    </h5>
+
+                    <p class="text-muted small mb-0">
+                        Current administrator account
+                    </p>
+
+                </div>
+
+
+                <div class="p-4">
+
+
+                    <div class="info-item">
+
+                        <span class="info-label">
+                            Administrator
+                        </span>
+
+                        <span class="info-value">
+
+                            {{ session.get("name")
+                               or session.get("admin_name")
+                               or "Administrator" }}
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <span class="info-label">
+                            Email
+                        </span>
+
+                        <span class="info-value">
+
+                            {{ session.get("email")
+                               or "Admin Account" }}
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <span class="info-label">
+                            Account Type
+                        </span>
+
+                        <span class="badge bg-primary">
+                            Administrator
+                        </span>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <span class="info-label">
+                            System
+                        </span>
+
+                        <span class="info-value">
+                            Education PDF Store
+                        </span>
+
+                    </div>
+
+
+                    <div class="mt-4">
+
+                        <a
+                            href="{{ url_for('admin_pdfs') }}"
+                            class="btn btn-primary w-100">
+
+                            📚 Open PDF Manager
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         RECENT PDFs
+    ================================================== -->
+
+    <div class="row g-4">
+
+
+        <!-- RECENT PDFs -->
+
+        <div class="col-lg-8">
+
+            <div class="panel-card">
+
+                <div class="panel-header">
+
+                    <div class="d-flex
+                                justify-content-between
+                                align-items-center">
+
+                        <div>
+
+                            <h5 class="fw-bold mb-1">
+                                📄 Recent PDFs
+                            </h5>
+
+                            <p class="text-muted small mb-0">
+                                Recently added educational materials
+                            </p>
+
+                        </div>
+
+                        <a
+                            href="{{ url_for('admin_pdfs') }}"
+                            class="btn btn-sm btn-outline-primary">
+
+                            View All
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                {% if pdfs %}
+
+                    {% for pdf in pdfs[:5] %}
+
+                    <div class="pdf-row">
+
+
+                        <div class="pdf-left">
+
+                            <div class="pdf-mini-icon">
+                                📕
+                            </div>
+
+                            <div>
+
+                                <div class="pdf-name">
+
+                                    {{ pdf["title"] }}
+
+                                </div>
+
+                                <div class="pdf-date">
+
+                                    {{ pdf["category"]
+                                       or "Education" }}
+
+                                    {% if pdf["created_at"] %}
+
+                                    •
+                                    {{ pdf["created_at"] }}
+
+                                    {% endif %}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="text-end">
+
+                            <div class="pdf-price">
+
+                                {% if pdf["price"]|float > 0 %}
+
+                                    ₹{{ "%.2f"|format(
+                                        pdf["price"]|float
+                                    ) }}
+
+                                {% else %}
+
+                                    FREE
+
+                                {% endif %}
+
+                            </div>
+
+
+                            {% if pdf["is_active"] %}
+
+                                <span class="badge bg-success">
+                                    Active
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-secondary">
+                                    Inactive
+                                </span>
+
+                            {% endif %}
+
+                        </div>
+
+
+                    </div>
+
+                    {% endfor %}
+
+
+                {% else %}
+
+                    <div class="no-data">
+
+                        <div class="no-data-icon">
+                            📂
+                        </div>
+
+                        <h6 class="fw-bold mt-2">
+                            No PDFs Available
+                        </h6>
+
+                        <p class="small mb-3">
+                            Add your first educational PDF.
+                        </p>
+
+                        <a
+                            href="{{ url_for('admin_add_pdf') }}"
+                            class="btn btn-primary btn-sm">
+
+                            ➕ Add PDF
+
+                        </a>
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <!-- SYSTEM SUMMARY -->
+
+        <div class="col-lg-4">
+
+            <div class="panel-card">
+
+                <div class="panel-header">
+
+                    <h5 class="fw-bold mb-1">
+                        📊 System Summary
+                    </h5>
+
+                    <p class="text-muted small mb-0">
+                        Store overview
+                    </p>
+
+                </div>
+
+
+                <div class="p-4">
+
+
+                    <div class="info-item">
+
+                        <span class="info-label">
+                            PDF Materials
+                        </span>
+
+                        <span class="info-value">
+
+                            {{ pdfs|length if pdfs else 0 }}
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <span class="info-label">
+                            Customer Orders
+                        </span>
+
+                        <span class="info-value">
+
+                            {{ orders|length if orders else 0 }}
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <span class="info-label">
+                            Coaching Admissions
+                        </span>
+
+                        <span class="info-value">
+
+                            {{ admissions|length if admissions else 0 }}
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <span class="info-label">
+                            Payment Gateway
+                        </span>
+
+                        <span class="info-value">
+
+                            Coming Soon
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="mt-4 p-3 rounded-3"
+                         style="background:#f5f6ff;">
+
+                        <div class="fw-bold">
+                            💡 Next Step
+                        </div>
+
+                        <div class="text-muted small mt-1">
+                            Razorpay payment integration can
+                            be connected later.
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+</div>
+
+{% endblock %}

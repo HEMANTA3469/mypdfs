@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}Admission Successful{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-7">
+
+            <div class="card border-0 shadow-lg rounded-4">
+
+                <div class="card-body text-center p-5">
+
+                    <div style="font-size:80px;">
+                        ✅
+                    </div>
+
+                    <h2 class="fw-bold mt-3">
+                        Admission Successful!
+                    </h2>
+
+                    <p class="text-muted">
+                        Your coaching admission has been
+                        successfully submitted.
+                    </p>
+
+                    <div class="alert alert-primary mt-4">
+
+                        <strong>
+                            Admission ID
+                        </strong>
+
+                        <br>
+
+                        <span class="fs-4 fw-bold">
+                            ADM{{ "%05d"|format(admission_id) }}
+                        </span>
+
+                    </div>
+
+                    <div class="d-flex
+                                justify-content-center
+                                gap-2
+                                flex-wrap mt-4">
+
+                        <a
+                            href="{{ url_for('admission') }}"
+                            class="btn btn-primary">
+
+                            New Admission
+
+                        </a>
+
+                        <a
+                            href="{{ url_for('index') }}"
+                            class="btn btn-outline-secondary">
+
+                            Home
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

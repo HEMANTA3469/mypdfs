@@ -1,0 +1,510 @@
+{% extends "base.html" %}
+
+{% block title %}Admission Details - Admin{% endblock %}
+
+{% block content %}
+
+<div class="container py-4">
+
+```
+<!-- HEADER -->
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+        <h2 class="fw-bold mb-1">
+            🎓 Admission Details
+        </h2>
+
+        <p class="text-muted mb-0">
+            View complete student admission information
+        </p>
+    </div>
+
+    <a href="{{ url_for('admin_admissions') }}"
+       class="btn btn-outline-secondary">
+        ⬅ Back to Admissions
+    </a>
+
+</div>
+
+<!-- =====================================================
+     STUDENT PHOTO
+===================================================== -->
+
+<div class="student-photo-box">
+
+    {% if admission['photo'] %}
+
+        <img
+            src="{{ url_for(
+                'static',
+                filename='uploads/admission_photos/' ~ admission['photo']
+            ) }}"
+            alt="Student Photo"
+            class="student-photo"
+        >
+
+    {% else %}
+
+        <div class="no-photo">
+            No Photo
+        </div>
+
+    {% endif %}
+
+</div>
+
+
+<!-- ADMISSION ID -->
+<div class="alert alert-primary rounded-4 shadow-sm">
+
+    <div class="d-flex justify-content-between align-items-center">
+
+        <div>
+            <strong>Admission ID</strong>
+            <div class="fs-5 fw-bold">
+                ADM{{ "%05d"|format(admission["id"]) }}
+            </div>
+        </div>
+
+        <div class="text-end">
+
+            {% if admission["payment_status"] == "Paid" %}
+
+                <span class="badge bg-success fs-6 px-3 py-2">
+                    ✓ Paid
+                </span>
+
+            {% else %}
+
+                <span class="badge bg-warning text-dark fs-6 px-3 py-2">
+                    Pending
+                </span>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="row g-4">
+
+
+    <!-- STUDENT INFORMATION -->
+    <div class="col-lg-6">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-header bg-primary text-white rounded-top-4">
+
+                <h5 class="mb-0">
+                    👨‍🎓 Student Information
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="row mb-3">
+
+                    <div class="col-sm-5 text-muted">
+                        Student Name
+                    </div>
+
+                    <div class="col-sm-7 fw-semibold">
+                        {{ admission["student_name"] or "-" }}
+                    </div>
+
+                </div>
+
+
+                <div class="row mb-3">
+
+                    <div class="col-sm-5 text-muted">
+                        Father Name
+                    </div>
+
+                    <div class="col-sm-7 fw-semibold">
+                        {{ admission["father_name"] or "-" }}
+                    </div>
+
+                </div>
+
+
+                <div class="row mb-3">
+
+                    <div class="col-sm-5 text-muted">
+                        Mother Name
+                    </div>
+
+                    <div class="col-sm-7 fw-semibold">
+                        {{ admission["mother_name"] or "-" }}
+                    </div>
+
+                </div>
+
+
+                <div class="row mb-3">
+
+                    <div class="col-sm-5 text-muted">
+                        Date of Birth
+                    </div>
+
+                    <div class="col-sm-7">
+                        {{ admission["dob"] or "-" }}
+                    </div>
+
+                </div>
+
+
+                <div class="row mb-3">
+
+                    <div class="col-sm-5 text-muted">
+                        Gender
+                    </div>
+
+                    <div class="col-sm-7">
+                        {{ admission["gender"] or "-" }}
+                    </div>
+
+                </div>
+
+
+                <div class="row mb-0">
+
+                    <div class="col-sm-5 text-muted">
+                        Mobile
+                    </div>
+
+                    <div class="col-sm-7 fw-semibold">
+                        {{ admission["mobile"] or "-" }}
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- COURSE INFORMATION -->
+    <div class="col-lg-6">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-header bg-success text-white rounded-top-4">
+
+                <h5 class="mb-0">
+                    📚 Course Information
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="row mb-3">
+
+                    <div class="col-sm-5 text-muted">
+                        Course
+                    </div>
+
+                    <div class="col-sm-7 fw-semibold">
+                        {{ admission["course"] or "-" }}
+                    </div>
+
+                </div>
+
+
+                <div class="row mb-3">
+
+                    <div class="col-sm-5 text-muted">
+                        Batch
+                    </div>
+
+                    <div class="col-sm-7">
+                        {{ admission["batch"] or "-" }}
+                    </div>
+
+                </div>
+
+
+                <div class="row mb-3">
+
+                    <div class="col-sm-5 text-muted">
+                        Previous Class
+                    </div>
+
+                    <div class="col-sm-7">
+                        {{ admission["previous_class"] or "-" }}
+                    </div>
+
+                </div>
+
+
+                <div class="row mb-3">
+
+                    <div class="col-sm-5 text-muted">
+                        Session
+                    </div>
+
+                    <div class="col-sm-7">
+                        {{ admission["session"] or "-" }}
+                    </div>
+
+                </div>
+
+
+                <div class="row mb-0">
+
+                    <div class="col-sm-5 text-muted">
+                        Admission Fee
+                    </div>
+
+                    <div class="col-sm-7 fw-bold text-success">
+
+                        ₹{{ "%.2f"|format(
+                            admission["admission_fee"] or 0
+                        ) }}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ADDRESS -->
+    <div class="col-lg-12">
+
+        <div class="card border-0 shadow-sm rounded-4">
+
+            <div class="card-header bg-dark text-white rounded-top-4">
+
+                <h5 class="mb-0">
+                    📍 Address Information
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        <small class="text-muted">
+                            Address
+                        </small>
+
+                        <div class="fw-semibold">
+                            {{ admission["address"] or "-" }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-2 mb-3">
+
+                        <small class="text-muted">
+                            City
+                        </small>
+
+                        <div class="fw-semibold">
+                            {{ admission["city"] or "-" }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-2 mb-3">
+
+                        <small class="text-muted">
+                            District
+                        </small>
+
+                        <div class="fw-semibold">
+                            {{ admission["district"] or "-" }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-2 mb-3">
+
+                        <small class="text-muted">
+                            Pincode
+                        </small>
+
+                        <div class="fw-semibold">
+                            {{ admission["pincode"] or "-" }}
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- PAYMENT -->
+    <div class="col-lg-6">
+
+        <div class="card border-0 shadow-sm rounded-4">
+
+            <div class="card-header bg-warning rounded-top-4">
+
+                <h5 class="mb-0">
+                    💰 Payment Information
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="mb-3">
+
+                    <small class="text-muted">
+                        Admission Fee
+                    </small>
+
+                    <div class="fs-4 fw-bold">
+                        ₹{{ "%.2f"|format(
+                            admission["admission_fee"] or 0
+                        ) }}
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <small class="text-muted">
+                        Payment Status
+                    </small>
+
+                    <div class="mt-1">
+
+                        {% if admission["payment_status"] == "Paid" %}
+
+                            <span class="badge bg-success fs-6 px-3 py-2">
+                                ✓ Paid
+                            </span>
+
+                        {% else %}
+
+                            <span class="badge bg-warning text-dark fs-6 px-3 py-2">
+                                Pending
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ACTIONS -->
+    <div class="col-lg-6">
+
+        <div class="card border-0 shadow-sm rounded-4">
+
+            <div class="card-header bg-info text-white rounded-top-4">
+
+                <h5 class="mb-0">
+                    ⚙️ Actions
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="d-flex flex-wrap gap-2">
+
+
+                    {% if admission["payment_status"] == "Paid" %}
+
+                        <a
+                            href="{{ url_for(
+                                'admin_admission_payment',
+                                admission_id=admission['id'],
+                                status='Pending'
+                            ) }}"
+                            class="btn btn-warning">
+
+                            ↩ Mark Pending
+
+                        </a>
+
+                    {% else %}
+
+                        <a
+                            href="{{ url_for(
+                                'admin_admission_payment',
+                                admission_id=admission['id'],
+                                status='Paid'
+                            ) }}"
+                            class="btn btn-success">
+
+                            ✓ Mark Paid
+
+                        </a>
+
+                    {% endif %}
+
+
+                    <a
+                        href="{{ url_for(
+                            'admin_admission_delete',
+                            admission_id=admission['id']
+                        ) }}"
+                        class="btn btn-danger"
+                        onclick="return confirm(
+                            'Are you sure you want to delete this admission?'
+                        );">
+
+                        🗑 Delete
+
+                    </a>
+
+
+                    <a
+                        href="{{ url_for('admin_admissions') }}"
+                        class="btn btn-outline-secondary">
+
+                        ⬅ Back
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+```
+
+</div>
+
+{% endblock %}

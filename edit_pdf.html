@@ -1,0 +1,298 @@
+{% extends "base.html" %}
+
+{% block title %}Edit PDF - Admin{% endblock %}
+
+{% block content %}
+
+<div class="container py-4">
+
+```
+<!-- HEADER -->
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+        <h2 class="fw-bold mb-1">
+            ✏️ Edit PDF
+        </h2>
+
+        <p class="text-muted mb-0">
+            Update educational PDF information
+        </p>
+    </div>
+
+    <a href="{{ url_for('admin_pdfs') }}"
+       class="btn btn-outline-secondary">
+        ⬅ Back to PDFs
+    </a>
+
+</div>
+
+
+<!-- FORM CARD -->
+<div class="row justify-content-center">
+
+    <div class="col-lg-9">
+
+        <div class="card border-0 shadow-sm rounded-4">
+
+            <div class="card-body p-4">
+
+                <form method="POST"
+                      enctype="multipart/form-data">
+
+
+                    <!-- TITLE -->
+                    <div class="mb-4">
+
+                        <label class="form-label fw-semibold">
+                            PDF Title
+                        </label>
+
+                        <input
+                            type="text"
+                            name="title"
+                            class="form-control form-control-lg"
+                            value="{{ pdf['title'] or '' }}"
+                            placeholder="Enter PDF title"
+                            required>
+
+                    </div>
+
+
+                    <!-- CATEGORY -->
+                    <div class="mb-4">
+
+                        <label class="form-label fw-semibold">
+                            Category
+                        </label>
+
+                        <input
+                            type="text"
+                            name="category"
+                            class="form-control"
+                            value="{{ pdf['category'] or 'Education' }}"
+                            placeholder="Example: Mathematics">
+
+                    </div>
+
+
+                    <!-- DESCRIPTION -->
+                    <div class="mb-4">
+
+                        <label class="form-label fw-semibold">
+                            Description
+                        </label>
+
+                        <textarea
+                            name="description"
+                            class="form-control"
+                            rows="5"
+                            placeholder="Enter PDF description">{{ pdf['description'] or '' }}</textarea>
+
+                    </div>
+
+
+                    <!-- PRICE -->
+                    <div class="mb-4">
+
+                        <label class="form-label fw-semibold">
+                            Price (₹)
+                        </label>
+
+                        <input
+                            type="number"
+                            name="price"
+                            class="form-control"
+                            step="0.01"
+                            min="0"
+                            value="{{ pdf['price'] or 0 }}"
+                            placeholder="0">
+
+                    </div>
+
+
+                    <!-- CURRENT PDF -->
+                    <div class="mb-4">
+
+                        <label class="form-label fw-semibold">
+                            Current PDF File
+                        </label>
+
+                        {% if pdf['pdf_file'] %}
+
+                        <div class="alert alert-light border">
+
+                            📄
+
+                            <strong>
+                                {{ pdf['pdf_file'] }}
+                            </strong>
+
+                        </div>
+
+                        {% else %}
+
+                        <div class="alert alert-warning">
+                            No PDF file found.
+                        </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- REPLACE PDF -->
+                    <div class="mb-4">
+
+                        <label class="form-label fw-semibold">
+                            Replace PDF File
+                        </label>
+
+                        <input
+                            type="file"
+                            name="pdf_file"
+                            class="form-control"
+                            accept=".pdf,application/pdf">
+
+                        <div class="form-text">
+                            Leave blank to keep the current PDF.
+                            Only PDF files are allowed.
+                        </div>
+
+                    </div>
+
+
+                    <!-- CURRENT THUMBNAIL -->
+                    <div class="mb-4">
+
+                        <label class="form-label fw-semibold">
+                            Current Thumbnail
+                        </label>
+
+                        {% if pdf['thumbnail'] %}
+
+                        <div class="mb-2">
+
+                            <img
+                                src="{{ url_for(
+                                    'static',
+                                    filename='thumbnails/' + pdf['thumbnail']
+                                ) }}"
+                                alt="PDF Thumbnail"
+                                class="img-thumbnail"
+                                style="
+                                    max-width:220px;
+                                    max-height:160px;
+                                    object-fit:cover;
+                                ">
+
+                        </div>
+
+                        <small class="text-muted">
+                            {{ pdf['thumbnail'] }}
+                        </small>
+
+                        {% else %}
+
+                        <div class="alert alert-light border">
+                            No thumbnail uploaded.
+                        </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- REPLACE THUMBNAIL -->
+                    <div class="mb-4">
+
+                        <label class="form-label fw-semibold">
+                            Replace Thumbnail
+                        </label>
+
+                        <input
+                            type="file"
+                            name="thumbnail"
+                            class="form-control"
+                            accept="image/jpeg,image/png,image/webp">
+
+                        <div class="form-text">
+                            JPG, JPEG, PNG or WEBP allowed.
+                            Leave blank to keep current thumbnail.
+                        </div>
+
+                    </div>
+
+
+                    <!-- ACTIVE STATUS -->
+                    {% if pdf['is_active'] is defined %}
+
+                    <div class="mb-4">
+
+                        <div class="form-check form-switch">
+
+                            <input
+                                class="form-check-input"
+                                type="checkbox"
+                                name="is_active"
+                                id="isActive"
+                                value="1"
+                                {% if pdf['is_active'] %}
+                                checked
+                                {% endif %}>
+
+                            <label
+                                class="form-check-label fw-semibold"
+                                for="isActive">
+
+                                PDF Active
+
+                            </label>
+
+                        </div>
+
+                        <small class="text-muted">
+                            Active PDFs are visible to users.
+                        </small>
+
+                    </div>
+
+                    {% endif %}
+
+
+                    <!-- BUTTONS -->
+                    <div class="d-flex flex-wrap gap-2 pt-2">
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary px-4">
+
+                            💾 Save Changes
+
+                        </button>
+
+
+                        <a
+                            href="{{ url_for('admin_pdfs') }}"
+                            class="btn btn-outline-secondary px-4">
+
+                            Cancel
+
+                        </a>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+```
+
+</div>
+
+{% endblock %}

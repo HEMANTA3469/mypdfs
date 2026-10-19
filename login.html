@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}Login - Education PDF Store{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-6 col-lg-5">
+
+            <div class="card shadow border-0 rounded-4">
+
+                <div class="card-body p-4 p-md-5">
+
+                    <div class="text-center mb-4">
+
+                        <div style="font-size:55px;">
+                            🔐
+                        </div>
+
+                        <h2 class="fw-bold">
+                            Welcome Back
+                        </h2>
+
+                        <p class="text-muted">
+                            Login to access your purchased PDFs
+                        </p>
+
+                    </div>
+
+
+                    <form method="POST">
+
+                        <div class="mb-3">
+
+                            <label class="form-label fw-semibold">
+                                Email Address
+                            </label>
+
+                            <input
+                                type="email"
+                                name="email"
+                                class="form-control form-control-lg"
+                                placeholder="Enter your email"
+                                required>
+
+                        </div>
+
+
+                        <div class="mb-3">
+
+                            <label class="form-label fw-semibold">
+                                Password
+                            </label>
+
+                            <input
+                                type="password"
+                                name="password"
+                                class="form-control form-control-lg"
+                                placeholder="Enter password"
+                                required>
+
+                        </div>
+
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary btn-lg w-100">
+
+                            Login
+
+                        </button>
+
+                    </form>
+
+
+                    <div class="text-center mt-4">
+
+                        <p class="mb-0">
+
+                            Don't have an account?
+
+                            <a href="{{ url_for('register') }}"
+                               class="fw-bold text-decoration-none">
+
+                                Create Account
+
+                            </a>
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

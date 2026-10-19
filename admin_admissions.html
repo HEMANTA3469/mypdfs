@@ -1,0 +1,1094 @@
+{% extends "base.html" %}
+
+{% block title %}Admin - Admissions{% endblock %}
+
+{% block content %}
+
+<div class="admin-page">
+
+    <div class="container-fluid py-4">
+
+        <!-- HEADER -->
+
+        <div class="admin-header">
+
+            <div>
+                <span class="small-label">
+                    ADMINISTRATION
+                </span>
+
+                <h2>
+                    🎓 Coaching Admissions
+                </h2>
+
+                <p>
+                    Manage all student admission records
+                </p>
+            </div>
+
+            <a
+                href="{{ url_for('admission') }}"
+                class="add-btn">
+
+                ➕ New Admission
+
+            </a>
+
+        </div>
+
+
+        <!-- STATISTICS -->
+
+        <div class="row g-3 mb-4">
+
+            <div class="col-md-3">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon blue">
+                        👨‍🎓
+                    </div>
+
+                    <div>
+                        <small>
+                            Total Admissions
+                        </small>
+
+                        <h3>
+                            {{ admissions|length }}
+                        </h3>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-3">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon green">
+                        💰
+                    </div>
+
+                    <div>
+                        <small>
+                            Paid
+                        </small>
+
+                        <h3>
+                            {{ admissions
+                               |selectattr(
+                                   'payment_status',
+                                   'equalto',
+                                   'Paid'
+                               )
+                               |list
+                               |length }}
+                        </h3>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-3">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon orange">
+                        ⏳
+                    </div>
+
+                    <div>
+                        <small>
+                            Pending
+                        </small>
+
+                        <h3>
+                            {{ admissions
+                               |selectattr(
+                                   'payment_status',
+                                   'equalto',
+                                   'Pending'
+                               )
+                               |list
+                               |length }}
+                        </h3>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-3">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon purple">
+                        📚
+                    </div>
+
+                    <div>
+                        <small>
+                            Courses
+                        </small>
+
+                        <h3>
+                            {{ admissions
+                               |map(attribute='course')
+                               |unique
+                               |list
+                               |length }}
+                        </h3>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- SEARCH -->
+
+        <div class="search-card mb-4">
+
+            <div class="search-box">
+
+                <span>🔍</span>
+
+                <input
+                    type="text"
+                    id="admissionSearch"
+                    placeholder="Search student, father name, mobile, course...">
+
+            </div>
+
+        </div>
+
+
+        <!-- TABLE -->
+
+        <div class="table-card">
+
+            <div class="table-responsive">
+
+                <table
+                    class="table admission-table"
+                    id="admissionTable">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                #
+                            </th>
+
+                            <th>
+                                Student
+                            </th>
+
+                            <th>
+                                Mobile
+                            </th>
+
+                            <th>
+                                Course
+                            </th>
+
+                            <th>
+                                Batch
+                            </th>
+
+                            <th>
+                                Fee
+                            </th>
+
+                            <th>
+                                Payment
+                            </th>
+
+                            <th>
+                                Date
+                            </th>
+
+                            <th>
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for admission in admissions %}
+
+                        <tr>
+
+                            <!-- ID -->
+
+                            <td>
+
+                                <strong>
+                                    ADM{{ "%05d"|format(admission["id"]) }}
+                                </strong>
+
+                            </td>
+
+
+                            <!-- STUDENT -->
+
+                            <td>
+
+                                <div class="student-info">
+
+                                    {% if admission["photo"] %}
+
+                                    <img
+                                        src="{{ url_for(
+                                            'static',
+                                            filename='uploads/' +
+                                            admission['photo']
+                                        ) }}">
+
+                                    {% else %}
+
+                                    <div class="student-avatar">
+                                        👨‍🎓
+                                    </div>
+
+                                    {% endif %}
+
+
+                                    <div>
+
+                                        <strong>
+                                            {{ admission["student_name"] }}
+                                        </strong>
+
+                                        <small>
+                                            Father:
+                                            {{ admission["father_name"] }}
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+
+                            <!-- MOBILE -->
+
+                            <td>
+
+                                📱
+                                {{ admission["mobile"] }}
+
+                            </td>
+
+
+                            <!-- COURSE -->
+
+                            <td>
+
+                                <span class="course-badge">
+
+                                    {{ admission["course"] }}
+
+                                </span>
+
+                            </td>
+
+
+                            <!-- BATCH -->
+
+                            <td>
+
+                                {{ admission["batch"] }}
+
+                            </td>
+
+
+                            <!-- FEE -->
+
+                            <td>
+
+                                <strong>
+                                    ₹{{ "%.2f"|format(
+                                        admission["admission_fee"]|float
+                                    ) }}
+                                </strong>
+
+                            </td>
+
+
+                            <!-- PAYMENT -->
+
+                            <td>
+
+                                {% if admission["payment_status"] == "Paid" %}
+
+                                <span class="status paid">
+                                    ✓ Paid
+                                </span>
+
+                                {% else %}
+
+                                <span class="status pending">
+                                    ⏳ Pending
+                                </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <!-- DATE -->
+
+                            <td>
+
+                                <small>
+                                    {{ admission["admission_date"] }}
+                                </small>
+
+                            </td>
+
+
+                            <!-- ACTION -->
+
+                            <td>
+
+                                <div class="action-buttons">
+
+                                    <a
+                                        href="{{ url_for(
+                                            'admin_admission_view',
+                                            admission_id=admission['id']
+                                        ) }}"
+                                        class="action view"
+                                        title="View">
+
+                                        👁
+
+                                    </a>
+
+
+                                    {% if admission["payment_status"] != "Paid" %}
+
+                                    <a
+                                        href="{{ url_for(
+                                            'admin_admission_payment',
+                                            admission_id=admission['id'],
+                                            status='Paid'
+                                        ) }}"
+                                        class="action paid-action"
+                                        title="Mark Paid">
+
+                                        ✓
+
+                                    </a>
+
+                                    {% endif %}
+
+
+                                    <a
+                                        href="{{ url_for(
+                                            'admin_admission_delete',
+                                            admission_id=admission['id']
+                                        ) }}"
+                                        class="action delete"
+                                        title="Delete"
+                                        onclick="return confirm(
+                                            'Delete this admission?'
+                                        );">
+
+                                        🗑
+
+                                    </a>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                        {% else %}
+
+                        <tr>
+
+                            <td
+                                colspan="9"
+                                class="empty-row">
+
+                                <div>
+
+                                    <div class="empty-icon">
+                                        🎓
+                                    </div>
+
+                                    <h4>
+                                        No Admissions Found
+                                    </h4>
+
+                                    <p>
+                                        New student admissions
+                                        will appear here.
+                                    </p>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* SEARCH */
+
+document
+    .getElementById("admissionSearch")
+    .addEventListener("keyup", function () {
+
+        let search =
+            this.value.toLowerCase();
+
+        let rows =
+            document.querySelectorAll(
+                "#admissionTable tbody tr"
+            );
+
+        rows.forEach(function(row) {
+
+            let text =
+                row.innerText.toLowerCase();
+
+            row.style.display =
+                text.includes(search)
+                    ? ""
+                    : "none";
+
+        });
+
+    });
+
+</script>
+
+
+<style>
+
+/* =====================================================
+   ADMIN PAGE
+===================================================== */
+
+.admin-page {
+
+    min-height:
+        calc(100vh - 70px);
+
+    background:
+        #f5f7fb;
+
+}
+
+
+.admin-header {
+
+    display: flex;
+
+    justify-content:
+        space-between;
+
+    align-items: center;
+
+    margin-bottom: 25px;
+
+}
+
+
+.small-label {
+
+    color:
+        #6366f1;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+
+}
+
+
+.admin-header h2 {
+
+    margin: 5px 0;
+
+    font-weight: 800;
+
+    color:
+        #17203c;
+
+}
+
+
+.admin-header p {
+
+    margin: 0;
+
+    color:
+        #7b8190;
+
+}
+
+
+.add-btn {
+
+    padding:
+        12px 18px;
+
+    border-radius:
+        10px;
+
+    color: white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #4f46e5,
+            #7c3aed
+        );
+
+    font-weight:
+        700;
+
+    text-decoration:
+        none;
+
+}
+
+
+/* =====================================================
+   STAT CARD
+===================================================== */
+
+.stat-card {
+
+    background:
+        white;
+
+    border:
+        1px solid #e9ebf2;
+
+    border-radius:
+        15px;
+
+    padding:
+        20px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        15px;
+
+    box-shadow:
+        0 5px 20px
+        rgba(30,40,80,.04);
+
+}
+
+
+.stat-icon {
+
+    width:
+        52px;
+
+    height:
+        52px;
+
+    border-radius:
+        13px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    font-size:
+        25px;
+
+}
+
+
+.stat-icon.blue {
+    background: #e9efff;
+}
+
+.stat-icon.green {
+    background: #e8f9ef;
+}
+
+.stat-icon.orange {
+    background: #fff3df;
+}
+
+.stat-icon.purple {
+    background: #f1eaff;
+}
+
+
+.stat-card small {
+
+    color:
+        #7b8190;
+
+}
+
+
+.stat-card h3 {
+
+    margin:
+        3px 0 0;
+
+    font-weight:
+        800;
+
+}
+
+
+/* =====================================================
+   SEARCH
+===================================================== */
+
+.search-card {
+
+    background:
+        white;
+
+    padding:
+        15px;
+
+    border-radius:
+        14px;
+
+    border:
+        1px solid #e9ebf2;
+
+}
+
+
+.search-box {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        10px;
+
+    max-width:
+        600px;
+
+}
+
+
+.search-box span {
+
+    font-size:
+        20px;
+
+}
+
+
+.search-box input {
+
+    border:
+        none;
+
+    outline:
+        none;
+
+    width:
+        100%;
+
+    padding:
+        10px;
+
+    font-size:
+        14px;
+
+}
+
+
+/* =====================================================
+   TABLE
+===================================================== */
+
+.table-card {
+
+    background:
+        white;
+
+    border-radius:
+        16px;
+
+    border:
+        1px solid #e7e9f0;
+
+    overflow:
+        hidden;
+
+}
+
+
+.admission-table {
+
+    margin:
+        0;
+
+    vertical-align:
+        middle;
+
+}
+
+
+.admission-table thead {
+
+    background:
+        #f8f9fd;
+
+}
+
+
+.admission-table th {
+
+    padding:
+        16px;
+
+    font-size:
+        12px;
+
+    text-transform:
+        uppercase;
+
+    color:
+        #6b7280;
+
+    white-space:
+        nowrap;
+
+}
+
+
+.admission-table td {
+
+    padding:
+        16px;
+
+    border-color:
+        #f0f1f5;
+
+    font-size:
+        13px;
+
+}
+
+
+.admission-table tbody tr {
+
+    transition:
+        .2s;
+
+}
+
+
+.admission-table tbody tr:hover {
+
+    background:
+        #fafaff;
+
+}
+
+
+/* STUDENT */
+
+.student-info {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        10px;
+
+    min-width:
+        200px;
+
+}
+
+
+.student-info img,
+.student-avatar {
+
+    width:
+        42px;
+
+    height:
+        42px;
+
+    border-radius:
+        50%;
+
+    object-fit:
+        cover;
+
+}
+
+
+.student-avatar {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    background:
+        #eef0ff;
+
+    font-size:
+        20px;
+
+}
+
+
+.student-info strong {
+
+    display:
+        block;
+
+}
+
+
+.student-info small {
+
+    display:
+        block;
+
+    color:
+        #8a90a0;
+
+}
+
+
+/* COURSE */
+
+.course-badge {
+
+    display:
+        inline-block;
+
+    padding:
+        5px 9px;
+
+    border-radius:
+        6px;
+
+    background:
+        #f0efff;
+
+    color:
+        #574bc9;
+
+    font-size:
+        11px;
+
+    font-weight:
+        700;
+
+}
+
+
+/* STATUS */
+
+.status {
+
+    padding:
+        5px 9px;
+
+    border-radius:
+        20px;
+
+    font-size:
+        11px;
+
+    font-weight:
+        700;
+
+}
+
+
+.status.paid {
+
+    background:
+        #e7f8ee;
+
+    color:
+        #15803d;
+
+}
+
+
+.status.pending {
+
+    background:
+        #fff4df;
+
+    color:
+        #b45309;
+
+}
+
+
+/* ACTIONS */
+
+.action-buttons {
+
+    display:
+        flex;
+
+    gap:
+        5px;
+
+}
+
+
+.action {
+
+    width:
+        32px;
+
+    height:
+        32px;
+
+    border-radius:
+        7px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    text-decoration:
+        none;
+
+}
+
+
+.action.view {
+
+    background:
+        #eef2ff;
+
+}
+
+
+.action.paid-action {
+
+    background:
+        #e8f8ee;
+
+}
+
+
+.action.delete {
+
+    background:
+        #fff0f0;
+
+}
+
+
+/* EMPTY */
+
+.empty-row {
+
+    text-align:
+        center;
+
+    padding:
+        70px !important;
+
+}
+
+
+.empty-icon {
+
+    font-size:
+        55px;
+
+}
+
+
+@media(max-width:768px) {
+
+    .admin-header {
+
+        align-items:
+            flex-start;
+
+        gap:
+            15px;
+
+        flex-direction:
+            column;
+
+    }
+
+}
+
+</style>
+
+{% endblock %}

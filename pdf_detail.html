@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ pdf["title"] }} - Education PDF Store
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row g-5">
+
+        <!-- =================================================
+             THUMBNAIL
+        ================================================== -->
+
+        <div class="col-lg-5">
+
+            <div class="card border-0 shadow rounded-4 overflow-hidden">
+
+                {% if pdf["thumbnail"] %}
+
+                    <img
+                        src="{{ url_for(
+                            'static',
+                            filename='thumbnails/' + pdf['thumbnail']
+                        ) }}"
+                        class="img-fluid"
+                        style="width:100%; height:450px; object-fit:cover;"
+                        alt="{{ pdf['title'] }}">
+
+                {% else %}
+
+                    <div
+                        style="
+                            height:450px;
+                            display:flex;
+                            align-items:center;
+                            justify-content:center;
+                            background:#e9ecef;
+                            font-size:120px;
+                        ">
+
+                        📄
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             DETAILS
+        ================================================== -->
+
+        <div class="col-lg-7">
+
+            <span class="badge bg-primary mb-3">
+
+                {{ pdf["category"] or "Education" }}
+
+            </span>
+
+
+            <h1 class="fw-bold mb-3">
+
+                {{ pdf["title"] }}
+
+            </h1>
+
+
+            <p class="text-muted fs-5">
+
+                {{ pdf["description"] or
+                   "Educational study material." }}
+
+            </p>
+
+
+            <hr>
+
+
+            <div class="mb-4">
+
+                <span class="text-muted">
+                    Price
+                </span>
+
+                <div class="display-5 fw-bold text-success">
+
+                    ₹{{ "%.2f"|format(pdf["price"]) }}
+
+                </div>
+
+            </div>
+
+
+            {% if purchased %}
+
+                <div class="alert alert-success">
+
+                    ✅ You already purchased this PDF.
+
+                </div>
+
+
+                <a
+                    href="{{ url_for(
+                        'download_pdf',
+                        pdf_id=pdf['id']
+                    ) }}"
+                    class="btn btn-success btn-lg">
+
+                    📥 Download PDF
+
+                </a>
+
+            {% elif session.get("user_id") %}
+
+                <a
+                    href="{{ url_for(
+                        'buy_pdf',
+                        pdf_id=pdf['id']
+                    ) }}"
+                    class="btn btn-primary btn-lg px-5">
+
+                    🛒 Buy Now
+
+                </a>
+
+            {% else %}
+
+                <div class="alert alert-info">
+
+                    Please login to purchase this PDF.
+
+                </div>
+
+
+                <a
+                    href="{{ url_for('login') }}"
+                    class="btn btn-primary btn-lg">
+
+                    🔐 Login to Buy
+
+                </a>
+
+                <a
+                    href="{{ url_for('register') }}"
+                    class="btn btn-outline-primary btn-lg">
+
+                    Create Account
+
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

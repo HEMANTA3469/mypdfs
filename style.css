@@ -1,0 +1,269 @@
+/* ==========================================================
+   EDUCATION PDF STORE
+   MAIN CSS
+========================================================== */
+
+body {
+    background: #f5f7fb;
+    color: #212529;
+}
+
+
+/* ==========================================================
+   NAVBAR
+========================================================== */
+
+.navbar-brand {
+    font-size: 1.25rem;
+}
+
+
+/* ==========================================================
+   HERO
+========================================================== */
+
+.hero-section {
+
+    background:
+        linear-gradient(
+            135deg,
+            #0d6efd,
+            #6610f2
+        );
+
+    color: white;
+
+    padding: 90px 0;
+
+}
+
+
+.hero-icon {
+
+    font-size: 170px;
+
+    background: rgba(255,255,255,0.12);
+
+    width: 260px;
+    height: 260px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin: auto;
+
+}
+
+
+.hero-books {
+
+    font-size: 45px;
+
+    margin-top: -30px;
+
+    position: relative;
+
+}
+
+
+/* ==========================================================
+   SEARCH
+========================================================== */
+
+.search-box {
+
+    max-width: 800px;
+
+    margin: auto;
+
+}
+
+
+/* ==========================================================
+   PDF CARD
+========================================================== */
+
+.pdf-card {
+
+    border: none;
+
+    border-radius: 16px;
+
+    overflow: hidden;
+
+    transition:
+        transform 0.25s,
+        box-shadow 0.25s;
+
+}
+
+
+.pdf-card:hover {
+
+    transform: translateY(-7px);
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,0.12) !important;
+
+}
+
+
+.pdf-thumbnail {
+
+    height: 220px;
+
+    object-fit: cover;
+
+}
+
+
+.default-thumbnail {
+
+    height: 220px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        linear-gradient(
+            135deg,
+            #e9ecef,
+            #dee2e6
+        );
+
+    font-size: 80px;
+
+}
+
+
+.pdf-title {
+
+    font-weight: 700;
+
+    min-height: 48px;
+
+}
+
+
+.price {
+
+    font-size: 1.3rem;
+
+    font-weight: 700;
+
+    color: #198754;
+
+}
+
+
+/* ==========================================================
+   FEATURES
+========================================================== */
+
+.features-section {
+
+    background: white;
+
+}
+
+
+.feature-box {
+
+    padding: 30px;
+
+}
+
+
+.feature-icon {
+
+    font-size: 50px;
+
+    margin-bottom: 15px;
+
+}
+
+
+/* ==========================================================
+   EMPTY
+========================================================== */
+
+.empty-icon {
+
+    font-size: 70px;
+
+    margin-bottom: 20px;
+
+}
+
+
+/* ==========================================================
+   MOBILE
+========================================================== */
+
+@media (max-width: 768px) {
+
+    .hero-section {
+
+        padding: 60px 0;
+
+        text-align: center;
+
+    }
+
+
+    .hero-section h1 {
+
+        font-size: 2.5rem;
+
+    }
+
+
+    .hero-icon {
+
+        width: 190px;
+
+        height: 190px;
+
+        font-size: 110px;
+
+        margin-top: 40px;
+
+    }
+
+}
+.student-photo-box {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.student-photo {
+    width: 150px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 3px solid #4338ca;
+    padding: 3px;
+    background: #fff;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+
+.no-photo {
+    width: 150px;
+    height: 180px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed #aaa;
+    border-radius: 10px;
+    color: #777;
+    background: #f8f9fa;
+}
